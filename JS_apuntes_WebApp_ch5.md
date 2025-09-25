@@ -447,13 +447,58 @@ the history list using the `back()`, `forward()`, and `go()` methods described i
 These navigation methods are often used for applications that involve data entry in web forms spread across multiple pages. By applying these methods, users can go back or forward through the pages to review or revise their answers.  
 To navigate through the history list of a popup window, use the name assigned to the window object as part of the history statement.
 
+> :memo: **Note** The total number of pages stored in the history list is provided by the `window.history.length` property. 
 
+### The location Object
 
+Information about the current page opened in the browser is stored in the location object. Properties and methods of the location object are described in **Figure 5-35.**
 
+![Properties and methods location object](images/figure5-35.png)
 
+The location object is a property of both the `document` and `window` objects, so you can write the entire reference as either `document.location` or `window.location`. If you omit the document or window object, the location is assumed to refer to the current document being viewed in the currently active window. 
 
+The location object is useful for apps that must load certain web pages or extract important information from page addresses.
 
+- For example, following statement uses the location object to load the Google home page into a popup browser window named newWin. 
 
-```javascript
+    ```javascript
+    let newWin = window.open("", "searchbox", "width=700, height=700"); 
+    newWin.location.href = "http://www.google.com";
+    ```
 
-```
+- You can also load the Google home page using either of the following statements:
+
+    ```javascript
+    location.assign("http://www.google.com");
+    location.replace("http://www.google.com");
+    ```
+
+The difference is that `replace()` method removes the URL of the current page, so that the user won’t be able to use the back button to navigate back to the original document.
+
+### The navigator Object
+
+The navigator object is used to obtain information about the user’s browser. Different browsers support different properties, but the properties described in **Figure 5-36** are supported by all current versions of the major browsers.  
+The navigator object is primarily used for debugging or for verifying that the user is running a compatible browser or operating system.
+
+![Properties navigator object](images/figure5-36.png)
+
+### The screen Object
+
+Computer displays vary widely depending on the type of device, the size and resolution of the monitor, the features of the graphics card and screen settings chosen by the user. Information about the screen is stored in the `screen` object. **Figure 5-37** describes the properties associated with the object.
+
+![Properties screen object](images/figure5-37.png)
+
+If your app employs popup windows, you can use the `width` and `height` properties of the `screen` object to center the popup within the screen. To center a popup window, subtract the width and height of the popup from the screen’s width and height and divide those differences by two. Assign the two calculated values to the popup window’s left and top position. 
+
+- The following code show a function that opens a popup window centered on the screen for a given width and height value: 
+
+    ```javascript
+    function centerPopup(url, popName, popWidth, popHeight) {
+       let leftPos = (screen.width - popWidth)/2;
+       let topPos = (screen.height - popHeight)/2;
+       let popOptions = "width="+popWidth + ", height=" + popHeight + 
+       ", left=" + leftPos + ", top=" + topPos;
+       let popWin = window.open(url, popName, popOptions); 
+    } 
+    ```
+    
